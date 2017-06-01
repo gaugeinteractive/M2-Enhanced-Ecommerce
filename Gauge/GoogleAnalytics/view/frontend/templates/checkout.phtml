@@ -1,0 +1,31 @@
+<?php
+/**
+* Gauge_GoogleAnalytics
+* Checkout funnel - Send the shipping info/method and payment method events
+*
+* @var $block Gauge\GoogleAnalytics\Block\Analytics
+*/
+?>
+
+<?php if ($block->isGoogleAnalyticsEnabled()) : ?>
+<script>
+require([ 'jquery', 'jquery/ui'], function($){ 
+    $(document).ready(function() {
+        ga('require', 'ec');
+
+        // Element generated after the DOM is loaded
+        $(document).on('click', '#checkout-step-shipping_method button', function() {
+            ga('ec:setAction', 'checkout', {'step': 2, 'option': 'Shipping Information and Method'});
+            ga('send', 'event', 'funnel', 'click', 'shipping info and method');
+        });
+
+        // Element generated after the DOM is loaded
+        $(document).on('click', '#checkout-payment-method-load button', function() {
+            ga('ec:setAction', 'checkout', {'step': 3, 'option': 'Payment Information'});
+            ga('send', 'event', 'funnel', 'click', 'payment method');
+        });
+
+    });
+});
+</script>
+<?php endif; ?>

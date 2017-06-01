@@ -1,0 +1,20 @@
+<?php
+/**
+* Gauge_GoogleAnalytics
+* Checkout funnel - Send the view cart event
+*
+* @var $block Gauge\GoogleAnalytics\Block\Analytics
+*/
+?>
+
+<?php if ($block->isGoogleAnalyticsEnabled()) : ?>
+<script>
+require([ 'jquery', 'jquery/ui'], function($){ 
+    $(document).ready(function() {
+        ga('require', 'ec');
+        ga('ec:setAction', 'checkout', {'step': 1, 'option': 'View Cart'});
+        ga('send', 'event', 'funnel', 'view', 'view cart');
+    });
+});
+</script>
+<?php endif; ?>

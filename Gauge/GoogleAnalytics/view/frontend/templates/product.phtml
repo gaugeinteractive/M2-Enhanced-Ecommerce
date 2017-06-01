@@ -1,0 +1,40 @@
+<?php
+/**
+* Gauge_GoogleAnalytics
+* Send product add to cart data
+*
+* @var $block Gauge\GoogleAnalytics\Block\Product
+*/
+?>
+
+<?php if ($block->isGoogleAnalyticsEnabled()) : ?>
+<?php //<script name="ec-pageview"> ?>
+<script>
+    require([ 'jquery', 'jquery/ui'], function($){
+        $(document).ready(function() {
+            ga('require', 'ec');
+
+            $('#product-addtocart-button').on("click", function() {
+                ga('ec:addProduct', {
+                    'id': '<?php echo $block->getProductSku(); ?>',
+                    'name': '<?php echo $block->getProductName(); ?>',
+                    'category': '<?php echo $block->getProductCategory(); ?>'
+                });
+
+                ga('ec:setAction', 'add');
+                ga('send', 'event', 'UX', 'click', 'add to cart');
+            });
+
+            ga('ec:addProduct', {
+                'id': '<?php echo $block->getProductSku(); ?>',
+                'name': '<?php echo $block->getProductName(); ?>',
+                'category': '<?php echo $block->getProductCategory(); ?>'
+            });
+
+            ga('ec:setAction', 'detail');
+            ga('send', 'event', 'UX', 'view', 'product view');
+            // ga('send', 'pageview');
+        });
+    });
+</script>
+<?php endif; ?>

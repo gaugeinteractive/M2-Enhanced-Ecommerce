@@ -1,0 +1,42 @@
+<?php
+/**
+* Gauge_GoogleAnalytics
+* Checkout funnel - Send the order success data
+* Send the transactional data
+*
+* @var $block Gauge\GoogleAnalytics\Block\Success
+*/
+?>
+
+<?php if ($block->isGoogleAnalyticsEnabled()) : ?>
+<script name="ec-pageview">
+    require([ 'jquery', 'jquery/ui'], function($){
+        $(document).ready(function() {
+            ga('require', 'ec');
+
+            ga('ec:setAction', 'checkout', {'step': 4, 'option': 'Order Success'});
+            ga('send', 'event', 'funnel', 'view', 'order success');
+
+            <?php foreach ($block->getOrderDetails()->getAllVisibleItems() as $item) : ?>
+                ga('ec:addProduct', {
+                    'id': '<?php echo $item->getSku(); ?>',
+                    'name': '<?php echo $item->getName(); ?>',
+                    'price': '<?php echo number_format($item->getPrice(), 2); ?>',
+                    'quantity': '<?php echo $item->getQtyOrdered(); ?>'
+                });
+            <?php endforeach; ?>
+
+            ga('ec:setAction', 'purchase', {
+                'id': '<?php echo $block->getOrderId(); ?>',
+                'affiliation': '<?php echo $block->getStoreName(); ?>',
+                'revenue': '<?php echo number_format($block->getOrderDetails()->getSubtotal(), 2); ?>',
+                'tax': '<?php echo number_format($block->getOrderDetails()->getTaxAmount(), 2); ?>',
+                'shipping': '<?php echo number_format($block->getOrderDetails()->getShippingAmount(), 2); ?>'
+            });
+
+            ga('send', 'pageview');
+
+        });
+    });
+</script>
+<?php endif; ?>
