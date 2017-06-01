@@ -18,5 +18,5 @@ Checkout Funnel Tracking:
 In the current state the extension does not track add to cart on the category view page. This feature is more dynamic so it has been left out.
 
 ## Debugging
-All templates are laid out using Magento 2's before.body.end and head.additional. If an event isn't being fired, verify the page layout overidden.
+All templates are laid out using Magento 2's before.body.end and head.additional. If an event isn't being fired, verify the page layout isn't being overidden.
 All click events utilize Magento 2's default markup. If a click event isn't firing, check to see if the ID of the selector matches up.
