@@ -47,7 +47,13 @@ class Product extends \Magento\Framework\View\Element\Template
     * @return string
     */
     public function getProductCategory() {
-        return $this->getProduct()->getCategory()->getName();
+
+        if ($this->getProduct()->getCategory()) {
+            return $this->getProduct()->getCategory()->getName();
+        }
+        else {
+            return '';
+        }
     }
 
     /**
